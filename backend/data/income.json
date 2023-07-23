@@ -1,0 +1,42 @@
+create
+{
+    "title": "Salary",
+    "category": "Income",
+    "period": "Monthly",
+    "start": "2023-06-01",
+    "end": "2023-12-31",
+    "institution": "ABC Company"
+}
+
+update
+{
+    "title": "Updated Salary",
+    "period": "Bi-weekly",
+    "institution": "XYZ Corporation"
+}
+  
+login
+{
+    "email" : "solaiman1@gmail.com",
+    "password" : "password"
+}
+
+register
+{
+    "username" : "Solaiman",
+    "email" : "solaiman2@gmail.com",
+    "password" : "password"
+}
+
+/create incomr_transaction
+{
+    "date": "2023-06-20",
+    "amount": 1000.50,
+    "note": "Received salary for June 2023"
+}
+/update
+{
+    "date": "2023-06-25",
+    "amount": 1200.75,
+    "note": "Received salary for June 2023, including bonus"
+}
