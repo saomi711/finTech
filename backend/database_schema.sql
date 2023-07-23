@@ -7,6 +7,19 @@ DROP TABLE goal;
 DROP TABLE bank_account;
 
 
+psql -h -p -U -w -W
+psql postgres
+\conninfo
+\q
+\c
+\dt
+\du
+\list
+CREATE ROLE me WITH LOGIN PASSWORD 'password';
+ALTER ROLE me CREATEDB;
+psql -d postgres -U me -h 6000
+CREATE DATABASE fintech;
+\c fintech
 
 
 CREATE TABLE users (
@@ -17,7 +30,7 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE income (
+CREATE TABLE incomes (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   category VARCHAR(100) NOT NULL,
@@ -28,7 +41,7 @@ CREATE TABLE income (
   institution VARCHAR(255)
 );
 
-CREATE TABLE income_transaction (
+CREATE TABLE income_transactions (
   id SERIAL PRIMARY KEY,
   date DATE NOT NULL,
   amount DECIMAL(10, 2) NOT NULL,
@@ -36,7 +49,7 @@ CREATE TABLE income_transaction (
   income_id INTEGER REFERENCES income(id) ON DELETE CASCADE
 );
 
-CREATE TABLE expense (
+CREATE TABLE expenses (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   category VARCHAR(100) NOT NULL,
@@ -47,7 +60,7 @@ CREATE TABLE expense (
   institution VARCHAR(255)
 );
 
-CREATE TABLE expense_transaction (
+CREATE TABLE expense_transactions (
   id SERIAL PRIMARY KEY,
   date DATE NOT NULL,
   amount DECIMAL(10, 2) NOT NULL,
@@ -55,7 +68,7 @@ CREATE TABLE expense_transaction (
   expense_id INTEGER REFERENCES expense(id) ON DELETE CASCADE
 );
 
-CREATE TABLE goal (
+CREATE TABLE goals (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   is_achieved BOOLEAN DEFAULT FALSE,
@@ -67,7 +80,7 @@ CREATE TABLE goal (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE bank_account (
+CREATE TABLE bank_accounts (
   id SERIAL PRIMARY KEY,
   bank_name VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
