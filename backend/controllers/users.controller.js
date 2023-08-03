@@ -22,18 +22,21 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.getUserById = async (req, res) => {
-  const userId = req.params.id;
   try {
+    const userId = req.userId;
+
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+    
     res.json(user);
   } catch (err) {
     console.error('Error getting user:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 exports.updateUser = async (req, res) => {
   const userId = req.params.id;
