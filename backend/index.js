@@ -10,6 +10,7 @@ const expenseTransactionController = require('./controllers/expense_transaction.
 const goalController = require('./controllers/goal.controller');
 const bankAccountController = require('./controllers/bank_account.controller');
 const authenticateToken = require('./middleware/authenticate');
+const cors = require('cors');
 
 const app = express()
 const db = require('./queries')
@@ -22,6 +23,8 @@ app.use(
     extended: true,
   })
 )
+
+app.use(cors());
 
 const crypto = require('crypto');
 const secretKey = crypto.randomBytes(32).toString('hex');
@@ -38,8 +41,8 @@ app.post('/register', authController.register);
 app.post('/login', authController.login);
 
 app.post('/users', authenticateToken, userController.createUser);
-app.get('/users', authenticateToken, userController.getAllUsers);
-app.get('/users/:id', authenticateToken, userController.getUserById);
+//app.get('/users', authenticateToken, userController.getAllUsers);
+app.get('/users', authenticateToken, userController.getUserById);
 app.put('/users/:id', userController.updateUser);
 app.delete('/users/:id', userController.deleteUser);
 
