@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
     };
 
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Token expires in 1 hour
-    res.json({ token });
+    res.json({ user, token });
   } catch (err) {
     console.error('Error logging in user:', err);
     res.status(500).json({ message: 'Server error' });
