@@ -4,6 +4,7 @@ import AuthService from './services/auth.service';
 import Login from './components/login/login.component';
 import Register from './components/register/register.component';
 import NavBar from './components/navbar/navbar.component';
+import Dashboard from './components/dashboard/dashboard.component';
 import Income from './components/income/income.component';
 import Logout from './components/logout/logout.component';
 import AddIncome from './components/income/add_income.component';
@@ -18,10 +19,10 @@ const App = () => {
   }
   AuthService.setAuthToken(token);
   return (
-    <Router>
       <div>
         <NavBar />
         <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/income" element={<Income />} />
@@ -30,7 +31,6 @@ const App = () => {
           <Route path="/editIncome/:incomeId" element={<EditIncome />} />
         </Routes>
       </div>
-    </Router>
 
   );
 };
