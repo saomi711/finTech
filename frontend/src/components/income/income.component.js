@@ -1,31 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import IncomeService from '../../services/income.service';
 import { useIncomeContext } from '../../contexts/income.context';
 import { useIncomeData } from '../../hooks/useIncomeData';
 
 const Income = () => {
     const { incomeData, setIncomeData } = useIncomeContext();
-    useIncomeData(); // Call the hook here at the component level
-
+    useIncomeData();
+    const navigate = useNavigate();
     const calculateIncomeDetails = (income) => {
-        // Calculate the total amount by summing up all income transactions
         const totalAmount = income.transactions?.reduce((total, transaction) => total + parseFloat(transaction.amount), 0.0) ?? 0.0;
 
-        // Get the description from the note of the first income transaction
         const description = income.transactions?.length > 0 ? income.transactions[0].note : '';
 
-        // Get the date from the date of the latest income transaction
         const date = income.transactions?.length > 0 ? income.transactions[income.transactions.length - 1].date : '';
 
         return { totalAmount, description, date };
     };
 
-    // Fetch income data on component mount
     useEffect(() => {
     }, []);
 
     const handleEdit = (incomeId) => {
-        // Add your logic to handle the edit action, e.g., redirect to edit page
+        navigate(`/editIncome/${incomeId}`);
         console.log(`Editing income with ID: ${incomeId}`);
     };
 
@@ -50,7 +47,6 @@ const Income = () => {
       <h2>Income List</h2>
       <ul>
         {incomeData.map((income) => {
-           // Calculate income details for each income
             const { totalAmount, description, date } = calculateIncomeDetails(income);
  
             return (
