@@ -15,7 +15,7 @@ export function useIncomeData() {
         const updatedIncomeList = await Promise.all(
           fetchedIncomeList.map(async (income) => {
             const incomeId = income.id;
-            const transactionResponse = await IncomeService.getAllIncomeTransactions(incomeId);
+            const transactionResponse = await IncomeService.getIncomeTransactions(incomeId);
             const transactions = transactionResponse.data;
             return { ...income, transactions };
           })
