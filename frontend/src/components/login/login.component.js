@@ -2,10 +2,14 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/auth.service';
 import { UserContext } from '../../contexts/user.context';
+import App from '../../App';
+import NavBar from '../navbar/navbar.component';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
 
@@ -25,7 +29,7 @@ const Login = () => {
         });
         
         localStorage.setItem('token', login_response.data.token);
-        navigate('/dashboard');
+        return navigate(-1);
       }
     } catch (error) {
       console.error('Login error:', error);
