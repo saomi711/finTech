@@ -13,7 +13,7 @@ const authenticateToken = require('./middleware/authenticate');
 const cors = require('cors');
 
 const app = express()
-const db = require('./queries')
+//const db = require('./queries')
 const port = 6600
 
 // middleware
