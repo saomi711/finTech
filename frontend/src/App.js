@@ -7,6 +7,7 @@ import NavBar from './components/navbar/navbar.component';
 import Income from './components/income/income.component';
 import Logout from './components/logout/logout.component';
 import AddIncome from './components/income/add_income.component';
+import EditIncome from './components/income/edit_income.component';
 
 const App = () => {
   const token = localStorage.getItem('token');
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/income" element={<Income />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/addIncome" element={<AddIncome />} />
+          <Route path="/editIncome/:incomeId" element={<EditIncome />} />
         </Routes>
       </div>
     </Router>
