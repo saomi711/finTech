@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './contexts/auth.context';
 import { IncomeProvider } from './contexts/income.context';
+import { ExpenseProvider } from './contexts/expense.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,9 +14,11 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <IncomeProvider>
+      <ExpenseProvider>
         <Router>
           <App />
         </Router>
+      </ExpenseProvider>
       </IncomeProvider>
     </AuthProvider>
   </React.StrictMode>
