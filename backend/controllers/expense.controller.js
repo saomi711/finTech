@@ -2,6 +2,9 @@ const Expense = require('../models/expense.model');
 
 exports.createExpense = async (req, res) => {
   try {
+    const userId = req.userId; 
+    req.body.user_id = userId; 
+    console.log(userId);
     const expense = await Expense.create(req.body);
     res.status(201).json(expense);
   } catch (err) {
@@ -12,7 +15,9 @@ exports.createExpense = async (req, res) => {
 
 exports.getAllExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.findAll();
+    const userId = req.userId; 
+    console.log(userId);
+    const expenses = await Expense.findAll({ where: { user_id: userId } });
     res.json(expenses);
   } catch (err) {
     console.error('Error getting expenses:', err);
@@ -23,9 +28,10 @@ exports.getAllExpenses = async (req, res) => {
 exports.getExpenseById = async (req, res) => {
   const expenseId = req.params.id;
   try {
-    const expense = await Expense.findByPk(expenseId);
+    const userId = req.userId; 
+    const expense = await Expense.findOne({ where: { id: expenseId, user_id: userId } });
     if (!expense) {
-      return res.status(404).json({ message: 'Expense not found' });
+      return res.status(404).json({ message: 'Expense not found or does not belong to the authenticated user' });
     }
     res.json(expense);
   } catch (err) {
@@ -37,6 +43,12 @@ exports.getExpenseById = async (req, res) => {
 exports.updateExpense = async (req, res) => {
   const expenseId = req.params.id;
   try {
+    const userId = req.userId; 
+    const expense = await Expense.findOne({ where: { id: expenseId, user_id: userId } });
+    if (!expense) {
+      return res.status(404).json({ message: 'Expense not found or does not belong to the authenticated user' });
+    }
+
     const [updatedRowsCount, updatedRows] = await Expense.update(req.body, {
       where: { id: expenseId },
       returning: true,
@@ -54,10 +66,13 @@ exports.updateExpense = async (req, res) => {
 exports.deleteExpense = async (req, res) => {
   const expenseId = req.params.id;
   try {
-    const deletedRowsCount = await Expense.destroy({ where: { id: expenseId } });
-    if (deletedRowsCount === 0) {
-      return res.status(404).json({ message: 'Expense not found' });
+    const userId = req.userId;
+    const expense = await Expense.findOne({ where: { id: expenseId, user_id: userId } });
+    if (!expense) {
+      return res.status(404).json({ message: 'Expense not found or does not belong to the authenticated user' });
     }
+
+    await Expense.destroy({ where: { id: expenseId } });
     res.json({ message: 'Expense deleted successfully' });
   } catch (err) {
     console.error('Error deleting expense:', err);
