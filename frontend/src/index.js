@@ -4,20 +4,20 @@ import './index.css';
 import App from './App';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { UserProvider } from './contexts/user.context';
+import { AuthProvider } from './contexts/auth.context';
 import { IncomeProvider } from './contexts/income.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
   <React.StrictMode>
-    <UserProvider>
+    <AuthProvider>
       <IncomeProvider>
         <Router>
           <App />
         </Router>
       </IncomeProvider>
-    </UserProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 
