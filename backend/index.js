@@ -66,11 +66,11 @@ app.get('/expense/:id', expenseController.getExpenseById);
 app.put('/expense/:id', expenseController.updateExpense);
 app.delete('/expense/:id', expenseController.deleteExpense);
 
-app.post('/expense-transaction', expenseTransactionController.createExpenseTransaction);
-app.get('/expense-transaction', expenseTransactionController.getAllExpenseTransactions);
-app.get('/expense-transaction/:id', expenseTransactionController.getExpenseTransactionById);
-app.put('/expense-transaction/:id', expenseTransactionController.updateExpenseTransaction);
-app.delete('/expense-transaction/:id', expenseTransactionController.deleteExpenseTransaction);
+app.post('/expense/:expense_id/transaction', expenseTransactionController.createExpenseTransaction);
+app.get('/expense/:expense_id/transaction', expenseTransactionController.getAllExpenseTransactions);
+app.get('/expense/:expense_id/transaction/:id', expenseTransactionController.getExpenseTransactionById);
+app.put('/expense/:expense_id/transaction/:id', expenseTransactionController.updateExpenseTransaction);
+app.delete('/expense/:expense_id/transaction/:id', expenseTransactionController.deleteExpenseTransaction);
 
 app.post('/goal', goalController.createGoal);
 app.get('/goal', goalController.getAllGoals);
