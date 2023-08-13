@@ -97,6 +97,7 @@ const IncomeService = {
       } else {
         throw new Error(`Failed to delete income with ID ${incomeId}.`);
       }
+      return response;
     } catch (error) {
       throw error;
     }
