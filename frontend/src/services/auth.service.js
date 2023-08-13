@@ -11,12 +11,12 @@ const AuthService = {
   },
   user: async (token) => {
     try {
-      const response = await axios.get(`${API_URL}/user`, {
+      const response = await axios.get(`${API_URL}/users`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching user:', error);
       throw error;
