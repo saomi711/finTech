@@ -12,6 +12,10 @@ import EditIncome from './components/income/edit_income.component';
 import Expense from './components/expense/expense.component';
 import AddExpense from './components/expense/add_expense.component';
 import EditExpense from './components/expense/edit_expense.component';
+import Goal from './components/goal/goal.component';
+import AddGoal from './components/goal/add_goal.component';
+import BankAccount from './components/bank_account/bank_account.component';
+import AddBankAccount from './components/bank_account/add_bank_account.component';
 
 const App = () => {
   const token = localStorage.getItem('token');
@@ -35,6 +39,11 @@ const App = () => {
           <Route path="/expense" element={<Expense />} />
           <Route path="/addExpense" element={<AddExpense />} />
           <Route path="/editExpense/:expenseId" element={<EditExpense />} />
+          <Route path="/addExpense" element={<AddExpense />} />
+          <Route path="/goal" element={<Goal />} />
+          <Route path="/addGoal" element={<AddGoal />} />
+          <Route path="/bankAccount" element={<BankAccount />} />
+          <Route path="/addBankAccount" element={<AddBankAccount />} />
         </Routes>
       </div>
 
