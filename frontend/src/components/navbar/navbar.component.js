@@ -51,6 +51,12 @@ const Navigation = () => {
               <Button component={Link} to="/expense" className={classes.link}>
                 Expense
               </Button>
+              <Button component={Link} to="/goal" className={classes.link}>
+                Goal
+              </Button>
+              <Button component={Link} to="/bankAccount" className={classes.link}>
+                Bank Account
+              </Button>
               <Button component={Link} to="/logout" className={classes.link}>
                 Logout
               </Button>
