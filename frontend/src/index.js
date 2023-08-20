@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './contexts/auth.context';
 import { IncomeProvider } from './contexts/income.context';
 import { ExpenseProvider } from './contexts/expense.context';
+import { GoalProvider } from './contexts/goal.context';
+import { BankAccountProvider } from './contexts/bank_account.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,9 +17,13 @@ root.render(
     <AuthProvider>
       <IncomeProvider>
       <ExpenseProvider>
+      <GoalProvider>
+      <BankAccountProvider>
         <Router>
           <App />
         </Router>
+      </BankAccountProvider>
+      </GoalProvider>
       </ExpenseProvider>
       </IncomeProvider>
     </AuthProvider>
