@@ -6,12 +6,14 @@ import App from '../../App';
 import NavBar from '../navbar/navbar.component';
 import { Link } from 'react-router-dom';
 import { Button, TextField, Typography, Container, CssBaseline, Grid } from '@material-ui/core';
+import { useAuth } from '../../contexts/auth.context';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
+  const { loggedIn, setLoggedIn } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,6 +23,7 @@ const Login = () => {
       if (login_response.data.token) {
         //setUser(login_response.data.user);
         localStorage.setItem('token', login_response.data.token);
+        setLoggedIn(true);
         return navigate(-1);
       }
     } catch (error) {
