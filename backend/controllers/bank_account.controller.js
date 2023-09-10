@@ -29,7 +29,7 @@ exports.getBankAccountById = async (req, res) => {
   const bankAccountId = req.params.id;
   try {
     const userId = req.userId; 
-    const bankAccount = await Expense.findOne({ where: { id: bankAccountId, user_id: userId } });
+    const bankAccount = await BankAccount.findOne({ where: { id: bankAccountId, user_id: userId } });
     if (!bankAccount) {
       return res.status(404).json({ message: 'Bank Account not found or does not belong to the authenticated user' });
     }
@@ -44,7 +44,7 @@ exports.updateBankAccount = async (req, res) => {
   const bankAccountId = req.params.id;
   try {
     const userId = req.userId; 
-    const bankAccount = await Expense.findOne({ where: { id: bankAccountId, user_id: userId } });
+    const bankAccount = await BankAccount.findOne({ where: { id: bankAccountId, user_id: userId } });
     if (!bankAccount) {
       return res.status(404).json({ message: 'Bank Account not found or does not belong to the authenticated user' });
     }
@@ -66,7 +66,7 @@ exports.deleteBankAccount = async (req, res) => {
   const bankAccountId = req.params.id;
   try {
     const userId = req.userId; 
-    const bankAccount = await Expense.findOne({ where: { id: bankAccountId, user_id: userId } });
+    const bankAccount = await BankAccount.findOne({ where: { id: bankAccountId, user_id: userId } });
     if (!bankAccount) {
       return res.status(404).json({ message: 'Bank Account not found or does not belong to the authenticated user' });
     }
