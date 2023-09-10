@@ -46,7 +46,7 @@ CREATE TABLE income_transactions (
   date DATE NOT NULL,
   amount DECIMAL(10, 2) NOT NULL,
   note TEXT,
-  income_id INTEGER REFERENCES income(id) ON DELETE CASCADE
+  income_id INTEGER REFERENCES incomes(id) ON DELETE CASCADE
 );
 
 CREATE TABLE expenses (
@@ -65,7 +65,7 @@ CREATE TABLE expense_transactions (
   date DATE NOT NULL,
   amount DECIMAL(10, 2) NOT NULL,
   note TEXT,
-  expense_id INTEGER REFERENCES expense(id) ON DELETE CASCADE
+  expense_id INTEGER REFERENCES expenses(id) ON DELETE CASCADE
 );
 
 CREATE TABLE goals (
