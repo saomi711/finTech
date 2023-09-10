@@ -9,7 +9,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
-  //const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
             const userResponse = await AuthService.user(token);
             if (userResponse.data) {
                 setLoggedIn(true);
-                //setUser(userResponse.data);
+                setUser(userResponse.data);
             }
             console.log(userResponse.data);
             
@@ -32,10 +32,11 @@ export function AuthProvider({ children }) {
       checkLoggedIn();
   }, []);
 
+
   
 
   return (
-    <AuthContext.Provider value={{ loggedIn }}>
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );
