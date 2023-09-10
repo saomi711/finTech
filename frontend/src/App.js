@@ -24,7 +24,15 @@ const App = () => {
 
   if (!token) {
     // Redirect to login if token is not present
-    return <Login />;
+    return (
+      <div>
+      <NavBar />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+      </div>
+    );
   }
   AuthService.setAuthToken(token);
   return (
