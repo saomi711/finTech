@@ -4,6 +4,7 @@ import { Button, List, ListItem, ListItemText, Link, Grid, ButtonGroup, Table, T
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { CheckCircleOutline, Cached } from '@material-ui/icons'; 
 import GoalService from '../../services/goal.service';
+import ExpenseService from '../../services/expense.service';
 import { useGoalContext } from '../../contexts/goal.context';
 import { useGoalData } from '../../hooks/useGoalData';
 import { useIncomeContext } from '../../contexts/income.context';
@@ -51,6 +52,33 @@ const Goal = () => {
         } catch (error) {
             console.error('Error deleting goal data:', error);
         }
+    };
+
+    const handleAchive = async (goal) => {
+        const updated_goal = { ...goal, is_achieved: true };
+
+        const currentTime = new Date().toISOString();
+        const dateOnly = currentTime.split('T')[0];
+        console.log('Current time:', currentTime);
+        const transaction = { amount: goal.monetary_value , note: goal.title, date: dateOnly};
+
+
+        
+        const oneTimeExpense = {
+            title: goal.title,
+            category: "One Time"
+        };
+
+
+        await ExpenseService.addExpense(oneTimeExpense);
+        const response = await ExpenseService.getExpense();
+        const expenses = response.data;
+        const expense = expenses[expenses.length - 1];
+        await ExpenseService.addExpenseTransaction(expense.id, transaction);
+        await GoalService.editGoal(goal.id, updated_goal);
+
+        console.log(`Goal with ID ${goal.id} has been achieved.`);
+    
     };
 
     const calculateGoalResidue = () => {
@@ -108,6 +136,7 @@ const Goal = () => {
                         {goalData.map((goal) => {
                           const residue = calculateGoalResidue();
                           const isGoalAchievable = residue >= goal.monetary_value;
+                          console.log('isAchieved:', goal.is_achieved);
                           return(
                             <React.Fragment key={goal.id}>
                                 <TableRow>
@@ -136,8 +165,8 @@ const Goal = () => {
                                         {goal.monetary_value}
                                     </TableCell>
                                     <TableCell align="center">
-                                    {goal.isAchieved && <CheckCircleOutline color="success" fontSize="large" />}
-                                    {!goal.isAchieved && <Cached color="success" fontSize="large" />}
+                                    {goal.is_achieved && <CheckCircleOutline color="success" fontSize="large" />}
+                                    {!goal.is_achieved && <Cached color="success" fontSize="large" />}
                                     </TableCell>
                                     <TableCell align="center">
                                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
@@ -150,7 +179,8 @@ const Goal = () => {
                                         </ButtonGroup>
                                     </TableCell>
                                 </TableRow>
-                                <TableRow>
+                                {!goal.is_achieved && <TableRow> 
+                                  
                                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
                                         <Collapse in={openGoal === goal.id} timeout="auto" unmountOnExit>
                                             <TableContainer component={Paper}>
@@ -162,6 +192,7 @@ const Goal = () => {
                                                             <TableCell>Deadline</TableCell>
                                                             <TableCell>Achievability</TableCell>
                                                             <TableCell>Progress</TableCell>
+                                                            <TableCell>Action</TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
@@ -175,13 +206,20 @@ const Goal = () => {
                                                             <TableCell>
                                                             <CircularProgress variant="determinate" value={isGoalAchievable ? 100 : ((residue / goal.monetary_value) * 100)} />
                                                             </TableCell>
+                                                            <TableCell>
+                                                            {!goal.is_achieved && 
+                                                            <Button variant='contained' onClick={() => handleAchive(goal)}>
+                                                              Achieve
+                                                            </Button>}
+                                                            {goal.is_achieved && <CheckCircleOutline color="success" fontSize="large" />}
+                                                            </TableCell>
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
                                         </Collapse>
                                     </TableCell>
-                                </TableRow>
+                                </TableRow>}
                             </React.Fragment>
                         )}
                         )}
