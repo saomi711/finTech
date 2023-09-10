@@ -95,6 +95,15 @@ const Dashboard = () => {
     return groupedMonthlyExpense;
   }, [expenseData, currentYear]);
 
+  const monthlySavings = useMemo(() => {
+    const savings = [];
+    for (let i = 0; i < 12; i++) {
+      const savingsAmount = (monthlyIncome[i] || 0) - (monthlyExpense[i] || 0);
+      savings.push(savingsAmount);
+    }
+    return savings;
+  }, [monthlyIncome, monthlyExpense]);
+
   useEffect(() => {
     async function fetchMonthlyData() {
       try {
@@ -106,7 +115,7 @@ const Dashboard = () => {
     }
 
     fetchMonthlyData();
-  }, [monthlyIncome, monthlyExpense]);
+  }, [monthlyIncome, monthlyExpense, monthlySavings]);
 
   const chartData = {
     labels: [
@@ -152,6 +161,45 @@ const Dashboard = () => {
     },
   };
 
+  const savingsChartData = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    datasets: [
+      {
+        label: `Monthly Savings (${currentYear})`,
+        data: monthlySavings,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const savingsChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Monthly Savings Chart',
+      },
+    },
+  };
+
+
   return (
     <div>
       <Grid container justify="center">
@@ -161,6 +209,11 @@ const Dashboard = () => {
       <div style={{ height: '400px', width: '600px' }}>
         <Bar data={chartData} options={chartOptions} />
       </div>
+      </Grid>
+      <Grid container justify="center">
+        <div style={{ height: '400px', width: '600px' }}>
+          <Bar data={savingsChartData} options={savingsChartOptions} />
+        </div>
       </Grid>
     </div>
   );
