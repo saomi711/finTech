@@ -2,6 +2,9 @@ const Goal = require('../models/goal.model');
 
 exports.createGoal = async (req, res) => {
   try {
+    const userId = req.userId; 
+    req.body.user_id = userId; 
+    console.log(userId);
     const goal = await Goal.create(req.body);
     res.status(201).json(goal);
   } catch (err) {
@@ -12,7 +15,9 @@ exports.createGoal = async (req, res) => {
 
 exports.getAllGoals = async (req, res) => {
   try {
-    const goals = await Goal.findAll();
+    const userId = req.userId; 
+    console.log(userId);
+    const goals = await Goal.findAll({ where: { user_id: userId } });
     res.json(goals);
   } catch (err) {
     console.error('Error getting goals:', err);
@@ -23,9 +28,10 @@ exports.getAllGoals = async (req, res) => {
 exports.getGoalById = async (req, res) => {
   const goalId = req.params.id;
   try {
-    const goal = await Goal.findByPk(goalId);
+    const userId = req.userId; 
+    const goal = await Goal.findOne({ where: { id: goalId, user_id: userId } });
     if (!goal) {
-      return res.status(404).json({ message: 'Goal not found' });
+      return res.status(404).json({ message: 'Goal not found or does not belong to the authenticated user' });
     }
     res.json(goal);
   } catch (err) {
@@ -37,6 +43,11 @@ exports.getGoalById = async (req, res) => {
 exports.updateGoal = async (req, res) => {
   const goalId = req.params.id;
   try {
+    const userId = req.userId;
+    const goal = await Goal.findOne({ where: { id: goalId, user_id: userId } });
+    if (!goal) {
+      return res.status(404).json({ message: 'Goal not found or does not belong to the authenticated user' });
+    }
     const [updatedRowsCount, updatedRows] = await Goal.update(req.body, {
       where: { id: goalId },
       returning: true,
@@ -54,6 +65,11 @@ exports.updateGoal = async (req, res) => {
 exports.deleteGoal = async (req, res) => {
   const goalId = req.params.id;
   try {
+    const userId = req.userId;
+    const goal = await Goal.findOne({ where: { id: goalId, user_id: userId } });
+    if (!goal) {
+      return res.status(404).json({ message: 'Goal not found or does not belong to the authenticated user' });
+    }
     const deletedRowsCount = await Goal.destroy({ where: { id: goalId } });
     if (deletedRowsCount === 0) {
       return res.status(404).json({ message: 'Goal not found' });
