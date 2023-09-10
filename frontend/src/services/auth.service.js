@@ -6,8 +6,8 @@ const AuthService = {
   login: async (email, password) => {
     return axios.post(`${API_URL}/login`, { email, password });
   },
-  register: async (email, password) => {
-    return axios.post(`${API_URL}/register`, { email, password });
+  register: async (username, email, password) => {
+    return axios.post(`${API_URL}/register`, { username, email, password });
   },
   user: async (token) => {
     try {
