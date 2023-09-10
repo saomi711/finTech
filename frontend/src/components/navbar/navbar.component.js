@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { useAuth } from '../../contexts/auth.context';
+import AuthService from '../../services/auth.service';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = () => {
   const classes = useStyles();
-  const { loggedIn,user } = useAuth();
+  //const [loggedIn, setLoggedIn] = useState(false);
+  const { loggedIn, setLoggedIn } = useAuth();
+
+  useEffect(() => {
+    
+  }, [loggedIn]);
 
   return (
     <div className={classes.root}>
@@ -42,8 +48,8 @@ const Navigation = () => {
                 Register
               </Button>
             </>
-          ) : null}
-          {loggedIn ? (
+          ) : (
+          
             <>
               <Button component={Link} to="/income" className={classes.link}>
                 Income
@@ -61,7 +67,7 @@ const Navigation = () => {
                 Logout
               </Button>
             </>
-          ) : null}
+          )}
         </Toolbar>
       </AppBar>
     </div>
